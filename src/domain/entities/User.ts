@@ -1,5 +1,5 @@
-import { Id } from "./valueObjects/Id"
-import { Entity } from "./Entity"
+import { Id } from './valueObjects/Id'
+import { Entity } from './Entity'
 
 type UserProps = {
   email: string

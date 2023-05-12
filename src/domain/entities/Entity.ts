@@ -1,5 +1,4 @@
-import { Id } from "./valueObjects/Id"
-
+import { Id } from './valueObjects/Id'
 
 export abstract class Entity<Props> {
   public readonly id: Id
@@ -7,6 +6,6 @@ export abstract class Entity<Props> {
 
   protected constructor(props: Props, id?: Id) {
     this.props = props
-    this.id = id ?? new Id() 
+    this.id = id ?? new Id()
   }
 }
