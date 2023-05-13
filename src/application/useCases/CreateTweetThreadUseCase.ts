@@ -34,6 +34,6 @@ export class CreateTweetThreadUseCase {
 
     await this.tweetThreadsRepository.create(tweetThread)
 
-    return tweets
+    return { tweets }
   }
 }

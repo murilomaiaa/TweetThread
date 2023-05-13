@@ -87,11 +87,11 @@ describe('CreateTweetThread', () => {
   })
 
   it('should return the generated tweets', async () => {
-    const tweets = await systemUnderTests.handle({
+    const result = await systemUnderTests.handle({
       transcript: 'any very good transcript',
       userId: 'any-valid-id',
     })
 
-    expect(tweets).toEqual(['any', 'very', 'good', 'transcript'])
+    expect(result).toEqual({ tweets: ['any', 'very', 'good', 'transcript'] })
   })
 })
