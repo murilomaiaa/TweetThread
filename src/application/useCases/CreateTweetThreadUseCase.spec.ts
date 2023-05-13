@@ -85,4 +85,13 @@ describe('CreateTweetThread', () => {
     expect(createSpy).toHaveBeenCalledOnce()
     expect(createSpy).toHaveBeenCalledWith(tweetThread)
   })
+
+  it('should return the generated tweets', async () => {
+    const tweets = await systemUnderTests.handle({
+      transcript: 'any very good transcript',
+      userId: 'any-valid-id',
+    })
+
+    expect(tweets).toEqual(['any', 'very', 'good', 'transcript'])
+  })
 })
