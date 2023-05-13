@@ -1,6 +1,7 @@
 import { Id } from '@/domain/entities/valueObjects/Id'
 import { UserRepository } from '../repositories/UserRepository'
 import { UserNotFoundError } from '../errors/UserNotFoundError'
+import { ThreadGenerator } from '../geteways/ThreadGenerator'
 
 type CreateTweetThreadProps = {
   userId: string
@@ -8,7 +9,10 @@ type CreateTweetThreadProps = {
 }
 
 export class CreateTweetThreadUseCase {
-  constructor(private readonly usersRepository: UserRepository) {}
+  constructor(
+    private readonly usersRepository: UserRepository,
+    private readonly threadGenerator: ThreadGenerator,
+  ) {}
 
   async handle({ transcript, userId }: CreateTweetThreadProps) {
     const user = await this.usersRepository.findById(new Id(userId))
@@ -16,5 +20,7 @@ export class CreateTweetThreadUseCase {
     if (user === undefined) {
       throw new UserNotFoundError()
     }
+
+    await this.threadGenerator.generate(transcript)
   }
 }
