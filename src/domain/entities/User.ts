@@ -1,7 +1,7 @@
 import { Id } from './valueObjects/Id'
 import { Entity } from './Entity'
 
-type UserProps = {
+export type UserProps = {
   email: string
   password: string
 }
