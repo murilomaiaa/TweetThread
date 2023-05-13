@@ -3,7 +3,15 @@ import { UserRepository } from '../repositories/UserRepository'
 import { makeFakeUser } from '@/domain/entities/__test__/helpers/makeFakeUser'
 import { UserNotFoundError } from '../errors/UserNotFoundError'
 import { Id } from '@/domain/entities/valueObjects/Id'
-import { ThreadGenerator } from '../geteways/ThreadGenerator'
+import { ThreadGenerator } from '../gateways/ThreadGenerator'
+import { TweetThreadRepository } from '../repositories/TweetThreadRepository'
+import { TweetThread } from '@/domain/entities/TweetThread'
+
+vi.mock('node:crypto', () => ({
+  randomUUID() {
+    return '8f8519f0-fd6b-4f6f-a366-ebf226fc5f61'
+  },
+}))
 
 describe('CreateTweetThread', () => {
   let systemUnderTests: CreateTweetThreadUseCase
@@ -18,10 +26,15 @@ describe('CreateTweetThread', () => {
     },
   }
 
+  const tweetThreadRepository: TweetThreadRepository = {
+    async create(tweetThread) {},
+  }
+
   beforeEach(() => {
     systemUnderTests = new CreateTweetThreadUseCase(
       userRepository,
       threadGenerator,
+      tweetThreadRepository,
     )
   })
 
@@ -50,5 +63,26 @@ describe('CreateTweetThread', () => {
 
     expect(generateSpy).toHaveBeenCalledOnce()
     expect(generateSpy).toHaveBeenCalledWith('any very good transcript')
+  })
+
+  it('should call TweetThreadRepository with correct args', async () => {
+    const owner = makeFakeUser()
+    vi.spyOn(userRepository, 'findById').mockResolvedValueOnce(owner)
+    const tweets = ['1/2 generated thread', '2/2 generated thread']
+    vi.spyOn(threadGenerator, 'generate').mockResolvedValueOnce(tweets)
+    const createSpy = vi.spyOn(tweetThreadRepository, 'create')
+
+    await systemUnderTests.handle({
+      transcript: 'any very good transcript',
+      userId: 'any-valid-id',
+    })
+
+    const tweetThread = TweetThread.create({
+      owner,
+      tweets,
+      transcript: 'any very good transcript',
+    })
+    expect(createSpy).toHaveBeenCalledOnce()
+    expect(createSpy).toHaveBeenCalledWith(tweetThread)
   })
 })
