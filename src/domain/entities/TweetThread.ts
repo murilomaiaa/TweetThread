@@ -1,10 +1,9 @@
 import { Id } from './valueObjects/Id'
 import { Entity } from './Entity'
-import { User } from './User'
 import { Optional } from '@/@types/Optional'
 
 type TweetThreadsProps = {
-  owner: User
+  ownerId: Id
   transcript: string
   tweets: string[]
   createdAt: Date

@@ -78,7 +78,7 @@ describe('CreateTweetThread', () => {
     })
 
     const tweetThread = TweetThread.create({
-      owner,
+      ownerId: owner.id,
       tweets,
       transcript: 'any very good transcript',
     })

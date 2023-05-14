@@ -27,7 +27,7 @@ export class CreateTweetThread {
     const tweets = await this.threadGenerator.generate(transcript)
 
     const tweetThread = TweetThread.create({
-      owner,
+      ownerId: owner.id,
       transcript,
       tweets,
     })
