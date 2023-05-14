@@ -3,4 +3,5 @@ dotenv.config()
 
 export default {
   openAIApiKey: process.env.OPEN_AI_API_KEY,
+  mongoUrl: process.env.MONGO_URL,
 }
