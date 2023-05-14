@@ -25,13 +25,7 @@ export class MongodbUserRepository implements UserRepository {
     const objectId = new ObjectId(id.toString())
     const user = await this.collection.findOne<MongodbUser>({ _id: objectId })
     if (user) {
-      return User.create(
-        {
-          email: user.email,
-          password: user.password,
-        },
-        new Id(user._id.toHexString()),
-      )
+      return this.mapper.toEntity(user)
     }
     return undefined
   }
