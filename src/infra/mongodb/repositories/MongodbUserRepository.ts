@@ -1,12 +1,10 @@
-import {
-  CreateUserOutput,
-  UserRepository,
-} from '@/application/repositories/UserRepository'
+import { UserRepository } from '@/application/repositories/UserRepository'
 import { User } from '@/domain/entities/User'
 import { Id } from '@/domain/entities/valueObjects/Id'
 import { MongoHelper } from '../MongoHelper'
 import { Collection, ObjectId } from 'mongodb'
 import { UserMapper } from '../Mappers/UserMapper'
+import { CreateEntityOutput } from '@/application/repositories/types/CreateEntityOutput'
 
 export type MongodbUser = {
   email: string
@@ -46,7 +44,7 @@ export class MongodbUserRepository implements UserRepository {
     return undefined
   }
 
-  async create(user: User): Promise<CreateUserOutput> {
+  async create(user: User): Promise<CreateEntityOutput> {
     const { email, password } = user
     const _id = new ObjectId()
     const mongodbUser: MongodbUser = {

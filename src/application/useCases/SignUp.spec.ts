@@ -1,8 +1,5 @@
 import { SignUp } from './SignUp'
-import {
-  CreateUserOutput,
-  UserRepository,
-} from '../repositories/UserRepository'
+import { UserRepository } from '../repositories/UserRepository'
 import { makeFakeUser } from '@/domain/entities/__test__/helpers/makeFakeUser'
 import { EmailAlreadyInUseError } from '../errors/EmailAlreadyInUseError'
 import { Encoder } from '../gateways/Encoder'
@@ -23,7 +20,7 @@ describe('SignUp', () => {
     async findByEmail(email: string) {
       return undefined
     },
-    async create(user): Promise<CreateUserOutput> {
+    async create(user) {
       return { generatedId: new Id('any-id') }
     },
   } as UserRepository
