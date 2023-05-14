@@ -1,4 +1,4 @@
-import { CreateTweetThreadUseCase } from './CreateTweetThreadUseCase'
+import { CreateTweetThread } from './CreateTweetThread'
 import { UserRepository } from '../repositories/UserRepository'
 import { makeFakeUser } from '@/domain/entities/__test__/helpers/makeFakeUser'
 import { UserNotFoundError } from '../errors/UserNotFoundError'
@@ -14,7 +14,7 @@ vi.mock('node:crypto', () => ({
 }))
 
 describe('CreateTweetThread', () => {
-  let systemUnderTests: CreateTweetThreadUseCase
+  let systemUnderTests: CreateTweetThread
   const userRepository: UserRepository = {
     async findById(id) {
       return makeFakeUser({}, id)
@@ -31,7 +31,7 @@ describe('CreateTweetThread', () => {
   }
 
   beforeEach(() => {
-    systemUnderTests = new CreateTweetThreadUseCase(
+    systemUnderTests = new CreateTweetThread(
       userRepository,
       threadGenerator,
       tweetThreadRepository,

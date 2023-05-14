@@ -10,7 +10,7 @@ type CreateTweetThreadProps = {
   transcript: string
 }
 
-export class CreateTweetThreadUseCase {
+export class CreateTweetThread {
   constructor(
     private readonly usersRepository: UserRepository,
     private readonly threadGenerator: ThreadGenerator,
