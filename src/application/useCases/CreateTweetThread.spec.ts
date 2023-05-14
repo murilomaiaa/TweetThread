@@ -15,11 +15,11 @@ vi.mock('node:crypto', () => ({
 
 describe('CreateTweetThread', () => {
   let systemUnderTests: CreateTweetThread
-  const userRepository: UserRepository = {
+  const userRepository = {
     async findById(id) {
       return makeFakeUser({}, id)
     },
-  }
+  } as UserRepository
   const threadGenerator: ThreadGenerator = {
     async generate(transcript) {
       return transcript.split(' ')
