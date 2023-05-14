@@ -1,7 +1,6 @@
 import { SignUp } from './SignUp'
 import { UserRepository } from '../repositories/UserRepository'
 import { makeFakeUser } from '@/domain/entities/__test__/helpers/makeFakeUser'
-import { Email } from '@/domain/entities/valueObjects/Email'
 import { EmailAlreadyInUseError } from '../errors/EmailAlreadyInUseError'
 import { Encoder } from '../gateways/Encoder'
 import { User } from '@/domain/entities/User'
