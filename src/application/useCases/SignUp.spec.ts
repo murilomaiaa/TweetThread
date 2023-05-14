@@ -1,10 +1,14 @@
 import { SignUp } from './SignUp'
-import { UserRepository } from '../repositories/UserRepository'
+import {
+  CreateUserOutput,
+  UserRepository,
+} from '../repositories/UserRepository'
 import { makeFakeUser } from '@/domain/entities/__test__/helpers/makeFakeUser'
 import { EmailAlreadyInUseError } from '../errors/EmailAlreadyInUseError'
 import { Encoder } from '../gateways/Encoder'
 import { User } from '@/domain/entities/User'
 import { TokenManager } from '../gateways/TokenManager'
+import { Id } from '@/domain/entities/valueObjects/Id'
 
 const mockId = '8f8519f0-fd6b-4f6f-a366-ebf226fc5f61'
 vi.mock('node:crypto', () => ({
@@ -19,7 +23,9 @@ describe('SignUp', () => {
     async findByEmail(email: string) {
       return undefined
     },
-    create(user) {},
+    async create(user): Promise<CreateUserOutput> {
+      return { generatedId: new Id('any-id') }
+    },
   } as UserRepository
 
   const encoder = {
@@ -74,6 +80,9 @@ describe('SignUp', () => {
       password: 'password123',
     })
 
-    expect(result).toEqual({ accessToken: `auth-token-${mockId}` })
+    expect(result).toEqual({
+      accessToken: `auth-token-${mockId}`,
+      generatedId: new Id('any-id'),
+    })
   })
 })

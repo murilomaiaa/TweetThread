@@ -27,12 +27,13 @@ export class SignUp {
     const hashPassword = await this.encoder.encode(user.password)
     user.password = hashPassword
 
-    await this.usersRepository.create(user)
+    const { generatedId } = await this.usersRepository.create(user)
 
     const accessToken = await this.tokenManager.sign({ id: user.id })
 
     return {
       accessToken,
+      generatedId,
     }
   }
 }
