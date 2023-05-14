@@ -1,7 +1,5 @@
-import { Id } from '@/domain/entities/valueObjects/Id'
-
 export type Payload = {
-  id: Id
+  id: string
 }
 
 export interface TokenManager {
