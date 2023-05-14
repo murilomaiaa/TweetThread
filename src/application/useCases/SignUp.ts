@@ -2,6 +2,7 @@ import { UserRepository } from '../repositories/UserRepository'
 import { EmailAlreadyInUseError } from '../errors/EmailAlreadyInUseError'
 import { Encoder } from '../gateways/Encoder'
 import { User } from '@/domain/entities/User'
+import { TokenManager } from '../gateways/TokenManager'
 
 type SignUpProps = {
   email: string
@@ -12,6 +13,7 @@ export class SignUp {
   constructor(
     private readonly usersRepository: UserRepository,
     private readonly encoder: Encoder,
+    private readonly tokenManager: TokenManager,
   ) {}
 
   public async handle({ email, password }: SignUpProps) {
@@ -26,5 +28,11 @@ export class SignUp {
     user.password = hashPassword
 
     await this.usersRepository.create(user)
+
+    const accessToken = await this.tokenManager.sign({ id: user.id })
+
+    return {
+      accessToken,
+    }
   }
 }

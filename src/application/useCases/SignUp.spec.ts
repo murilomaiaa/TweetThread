@@ -4,10 +4,12 @@ import { makeFakeUser } from '@/domain/entities/__test__/helpers/makeFakeUser'
 import { EmailAlreadyInUseError } from '../errors/EmailAlreadyInUseError'
 import { Encoder } from '../gateways/Encoder'
 import { User } from '@/domain/entities/User'
+import { TokenManager } from '../gateways/TokenManager'
 
+const mockId = '8f8519f0-fd6b-4f6f-a366-ebf226fc5f61'
 vi.mock('node:crypto', () => ({
   randomUUID() {
-    return '8f8519f0-fd6b-4f6f-a366-ebf226fc5f61'
+    return mockId
   },
 }))
 
@@ -26,8 +28,14 @@ describe('SignUp', () => {
     },
   } as Encoder
 
+  const tokenManager = {
+    async sign(info, expiresIn) {
+      return `auth-token-${info.id.toString()}`
+    },
+  } as TokenManager
+
   beforeEach(() => {
-    systemUnderTests = new SignUp(userRepository, encoder)
+    systemUnderTests = new SignUp(userRepository, encoder, tokenManager)
   })
 
   it('should throw if user is defined', async () => {
@@ -58,5 +66,14 @@ describe('SignUp', () => {
     expect(createSpy).toHaveBeenCalledWith(
       User.create({ email: 'e@mail.com', password: 'hash:password123' }),
     )
+  })
+
+  it('should return correct data', async () => {
+    const result = await systemUnderTests.handle({
+      email: 'e@mail.com',
+      password: 'password123',
+    })
+
+    expect(result).toEqual({ accessToken: `auth-token-${mockId}` })
   })
 })
