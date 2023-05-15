@@ -7,6 +7,10 @@ import { contentType } from './middlewares/contentType'
 import { errorHandler } from './middlewares/errorHandler'
 import { makeAuthController } from './factories/controllers/makeAuthController'
 import { AuthController } from '@/presentation/controllers/AuthController'
+import { makeTweetThreadController } from './factories/controllers/makeTweetThreadController'
+import { TweetThreadController } from '@/presentation/controllers/TweetThreadController'
+import { EnsureAuthenticatedMiddleware } from '@/presentation/middleware/EnsureAuthenticatedMiddleware'
+import { makeEnsureAuthenticatedMiddleware } from './factories/middlewares/makeEnsureAuthenticatedMiddleware'
 
 export class Server {
   public readonly app: Express
@@ -31,9 +35,23 @@ export class Server {
   }
 
   private setupRoutes() {
+    const ensureAuthenticatedMiddleware: EnsureAuthenticatedMiddleware =
+      makeEnsureAuthenticatedMiddleware()
+
     const authController: AuthController = makeAuthController()
     this.app.post('/auth/signup', authController.signUp.bind(authController))
     this.app.post('/auth/login', authController.login.bind(authController))
+
+    this.app.use(
+      '/tweet-threads',
+      ensureAuthenticatedMiddleware.handle.bind(ensureAuthenticatedMiddleware),
+    )
+    const tweetThreadController: TweetThreadController =
+      makeTweetThreadController()
+    this.app.post(
+      '/tweet-threads',
+      tweetThreadController.signUp.bind(tweetThreadController),
+    )
   }
 
   async start(port: number) {

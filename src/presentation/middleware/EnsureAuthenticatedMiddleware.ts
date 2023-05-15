@@ -15,6 +15,8 @@ export class EnsureAuthenticatedMiddleware {
       })
     }
 
+    // Added ignore because ts-node-dev is throwing error.
+    // @ts-ignore
     request.userId = result.id
 
     return next()
