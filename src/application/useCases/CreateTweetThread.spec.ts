@@ -39,6 +39,14 @@ describe('CreateTweetThread', () => {
       tweetThreadRepository,
     )
   })
+  beforeAll(() => {
+    vi.useFakeTimers({
+      now: new Date(),
+    })
+  })
+  afterAll(() => {
+    vi.useRealTimers()
+  })
 
   it('should throw if user is undefined', async () => {
     const findByIdSpy = vi
