@@ -1,10 +1,11 @@
 import { Id } from './valueObjects/Id'
 import { Entity } from './Entity'
 import { Email } from './valueObjects/Email'
+import { Password } from './valueObjects/Password'
 
 export type UserProps = {
   email: Email
-  password: string
+  password: Password
 }
 
 export type UserCreateProps = {
@@ -18,18 +19,18 @@ export class User extends Entity<UserProps> {
   }
 
   get password() {
-    return this.props.password
+    return this.props.password.toString()
   }
 
   set password(password: string) {
-    this.props.password = password
+    this.props.password = new Password(password)
   }
 
   static create(props: UserCreateProps, id?: Id) {
     return new User(
       {
         email: new Email(props.email),
-        password: props.password,
+        password: new Password(props.password),
       },
       id,
     )

@@ -51,7 +51,7 @@ describe('CreateTweetThread', () => {
     })
 
     expect(findByIdSpy).toHaveBeenCalledOnce()
-    expect(findByIdSpy).toHaveBeenCalledWith(new Id('any-valid-id'))
+    expect(findByIdSpy).toHaveBeenCalledWith('any-valid-id')
     await expect(promise).rejects.toEqual(new UserNotFoundError())
   })
 
@@ -80,7 +80,7 @@ describe('CreateTweetThread', () => {
     })
 
     const tweetThread = TweetThread.create({
-      ownerId: owner.id,
+      ownerId: new Id(owner.id),
       tweets,
       transcript: 'any very good transcript',
     })

@@ -1,11 +1,15 @@
 import { Id } from './valueObjects/Id'
 
 export abstract class Entity<Props> {
-  public readonly id: Id
+  protected _id: Id
+  get id() {
+    return this._id.toString()
+  }
+
   protected props: Props
 
   protected constructor(props: Props, id?: Id) {
     this.props = props
-    this.id = id ?? new Id()
+    this._id = id ?? new Id()
   }
 }
