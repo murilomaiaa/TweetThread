@@ -32,7 +32,7 @@ export class AuthController {
   public async login(request: Request, response: Response) {
     const loginSchema = z.object({
       email: z.string().email(),
-      password: z.string().min(6),
+      password: z.string(),
     })
 
     const { email, password } = loginSchema.parse(request.body)
