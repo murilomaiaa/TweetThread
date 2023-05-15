@@ -1,11 +1,11 @@
 import { DomainError } from '../errors/DomainError'
 
-export class Email {
+export class Password {
   private readonly _value: string
 
   constructor(value: string) {
     if (!this.validate(value)) {
-      throw new DomainError('Invalid email address')
+      throw new DomainError('Invalid password')
     }
     this._value = value
   }
@@ -14,9 +14,8 @@ export class Email {
     return this._value
   }
 
-  private validate(email: string): boolean {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    return emailRegex.test(email)
+  private validate(password: string): boolean {
+    return password.length > 6
   }
 
   public toString(): string {
