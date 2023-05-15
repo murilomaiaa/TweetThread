@@ -3,15 +3,9 @@ import 'express-async-errors'
 import cors from 'cors'
 import express, { Express } from 'express'
 import helmet from 'helmet'
-
-import { SignUp } from '@/application/useCases/SignUp'
-import { BcryptEncoder } from '@/infra/gateways/BcryptEncoder'
-import { JwtTokenManager } from '@/infra/gateways/JwtTokenManager'
-import { MongodbUserRepository } from '@/infra/mongodb/repositories/MongodbUserRepository'
-import { AuthController } from '@/presentation/controllers/AuthController'
-import config from './config'
 import { contentType } from './middlewares/contentType'
 import { errorHandler } from './middlewares/errorHandler'
+import { makeAuthController } from './factories/controllers/makeAuthController'
 
 export class Server {
   public readonly app: Express
@@ -36,11 +30,7 @@ export class Server {
   }
 
   private setupRoutes() {
-    const userRepository = new MongodbUserRepository()
-    const encoder = new BcryptEncoder(10)
-    const tokenManager = new JwtTokenManager(config.jwtSecret ?? '')
-    const signUp = new SignUp(userRepository, encoder, tokenManager)
-    const authController = new AuthController(signUp)
+    const authController = makeAuthController()
     this.app.post('/auth/signup', authController.signUp.bind(authController))
   }
 
