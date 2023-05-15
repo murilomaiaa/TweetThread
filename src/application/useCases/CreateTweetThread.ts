@@ -18,7 +18,7 @@ export class CreateTweetThread {
   ) {}
 
   async handle({ transcript, userId }: CreateTweetThreadProps) {
-    const owner = await this.usersRepository.findById(new Id(userId))
+    const owner = await this.usersRepository.findById(userId)
 
     if (owner === undefined) {
       throw new UserNotFoundError()

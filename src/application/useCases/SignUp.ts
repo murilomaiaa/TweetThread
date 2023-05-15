@@ -29,7 +29,7 @@ export class SignUp {
 
     const { generatedId } = await this.usersRepository.create(user)
 
-    const accessToken = await this.tokenManager.sign({ id: user.id })
+    const accessToken = await this.tokenManager.sign({ id: user.id.toString() })
 
     return {
       accessToken,

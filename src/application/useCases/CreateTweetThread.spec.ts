@@ -17,7 +17,7 @@ describe('CreateTweetThread', () => {
   let systemUnderTests: CreateTweetThread
   const userRepository = {
     async findById(id) {
-      return makeFakeUser({}, id)
+      return makeFakeUser({}, new Id(id))
     },
   } as UserRepository
   const threadGenerator: ThreadGenerator = {
@@ -27,7 +27,9 @@ describe('CreateTweetThread', () => {
   }
 
   const tweetThreadRepository: TweetThreadRepository = {
-    async create(tweetThread) {},
+    async create(tweetThread) {
+      return { generatedId: new Id().toString() }
+    },
   }
 
   beforeEach(() => {

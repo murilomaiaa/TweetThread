@@ -32,11 +32,11 @@ describe('MongodbTweetThreadRepository', () => {
     const insertedTweetThread = (await MongoHelper.getCollection(
       MongodbTweetThreadRepository.collection,
     ).findOne({
-      _id: new ObjectId(generatedId.toString()),
+      _id: new ObjectId(generatedId),
     })) as MongodbTweetThread
     expect(insertedTweetThread).toBeDefined()
     expect(insertedTweetThread).toEqual<MongodbTweetThread>({
-      _id: new ObjectId(generatedId.toString()),
+      _id: new ObjectId(generatedId),
       ownerId: new ObjectId(thread.ownerId.toString()),
       transcript: thread.transcript,
       tweets: thread.tweets,

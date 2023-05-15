@@ -27,7 +27,7 @@ export class Login {
       throw new InvalidPassword()
     }
 
-    const accessToken = await this.tokenManager.sign({ id: user.id })
+    const accessToken = await this.tokenManager.sign({ id: user.id.toString() })
 
     return {
       accessToken,

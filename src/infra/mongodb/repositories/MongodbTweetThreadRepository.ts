@@ -1,6 +1,5 @@
 import { TweetThreadRepository } from '@/application/repositories/TweetThreadRepository'
 import { TweetThread } from '@/domain/entities/TweetThread'
-import { Id } from '@/domain/entities/valueObjects/Id'
 import { MongoHelper } from '../MongoHelper'
 import { Collection, ObjectId } from 'mongodb'
 import { TweetThreadMapper } from '../Mappers/TweetThreadMapper'
@@ -40,7 +39,7 @@ export class MongodbTweetThreadRepository implements TweetThreadRepository {
     }
     await this.collection.insertOne(mongodbTweetThread)
     return {
-      generatedId: new Id(_id.toString()),
+      generatedId: _id.toHexString(),
     }
   }
 }

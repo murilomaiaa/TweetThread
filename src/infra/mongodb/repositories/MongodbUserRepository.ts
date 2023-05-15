@@ -1,6 +1,5 @@
 import { UserRepository } from '@/application/repositories/UserRepository'
 import { User } from '@/domain/entities/User'
-import { Id } from '@/domain/entities/valueObjects/Id'
 import { MongoHelper } from '../MongoHelper'
 import { Collection, ObjectId } from 'mongodb'
 import { UserMapper } from '../Mappers/UserMapper'
@@ -21,7 +20,7 @@ export class MongodbUserRepository implements UserRepository {
     this.collection = MongoHelper.getCollection<MongodbUser>('users')
   }
 
-  async findById(id: Id): Promise<User | undefined> {
+  async findById(id: string): Promise<User | undefined> {
     const objectId = new ObjectId(id.toString())
     const user = await this.collection.findOne<MongodbUser>({ _id: objectId })
     if (user) {
@@ -48,7 +47,7 @@ export class MongodbUserRepository implements UserRepository {
     }
     await this.collection.insertOne(mongodbUser)
     return {
-      generatedId: new Id(_id.toString()),
+      generatedId: _id.toHexString(),
     }
   }
 }

@@ -21,7 +21,7 @@ describe('SignUp', () => {
       return undefined
     },
     async create(user) {
-      return { generatedId: new Id('any-id') }
+      return { generatedId: 'any-id' }
     },
   } as UserRepository
 
