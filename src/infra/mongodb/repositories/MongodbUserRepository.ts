@@ -21,7 +21,7 @@ export class MongodbUserRepository implements UserRepository {
   }
 
   async findById(id: string): Promise<User | undefined> {
-    const objectId = new ObjectId(id.toString())
+    const objectId = new ObjectId(id)
     const user = await this.collection.findOne<MongodbUser>({ _id: objectId })
     if (user) {
       return this.mapper.toEntity(user)
