@@ -45,7 +45,13 @@ export class MongodbTweetThreadRepository implements TweetThreadRepository {
       updatedAt,
       ownerId: new ObjectId(ownerId.toString()),
     }
-    await this.collection.insertOne(mongodbTweetThread)
+    await Promise.all([
+      await this.collection.insertOne(mongodbTweetThread),
+      await MongoHelper.getCollection('users').updateOne(
+        { _id: new ObjectId(ownerId.toString()) },
+        { $push: { savedTweetThreads: new ObjectId(_id) } },
+      ),
+    ])
     return {
       generatedId: _id.toHexString(),
     }

@@ -6,9 +6,10 @@ import { UserMapper } from '../Mappers/UserMapper'
 import { CreateEntityOutput } from '@/application/repositories/types/CreateEntityOutput'
 
 export type MongodbUser = {
+  _id: ObjectId
   email: string
   password: string
-  _id: ObjectId
+  savedTweetThreads: ObjectId[]
 }
 
 export class MongodbUserRepository implements UserRepository {
@@ -44,6 +45,7 @@ export class MongodbUserRepository implements UserRepository {
       email,
       password,
       _id,
+      savedTweetThreads: [],
     }
     await this.collection.insertOne(mongodbUser)
     return {
