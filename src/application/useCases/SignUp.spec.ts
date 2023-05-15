@@ -77,7 +77,7 @@ describe('SignUp', () => {
     })
 
     expect(result).toEqual({
-      accessToken: `auth-token-${mockId}`,
+      accessToken: `auth-token-any-id`,
       generatedId: 'any-id',
     })
   })
