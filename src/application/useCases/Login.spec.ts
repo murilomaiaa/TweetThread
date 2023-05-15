@@ -66,6 +66,6 @@ describe('Login', () => {
       password: 'password123',
     })
 
-    expect(result).toEqual({ accessToken: `auth-token-${mockId}`, id: mockId })
+    expect(result).toEqual({ accessToken: `auth-token-${mockId}` })
   })
 })

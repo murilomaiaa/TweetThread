@@ -27,11 +27,10 @@ export class Login {
       throw new InvalidPassword()
     }
 
-    const accessToken = await this.tokenManager.sign({ id: user.id.toString() })
+    const accessToken = await this.tokenManager.sign({ id: user.id })
 
     return {
       accessToken,
-      id: user.id.toString(),
     }
   }
 }
