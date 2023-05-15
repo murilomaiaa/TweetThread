@@ -53,6 +53,8 @@ export class OpenAIThreadGenerator implements ThreadGenerator {
     const result = completion.data.choices[0].message?.content
       .split('\n')
       .filter((tweet) => tweet.trim().length > 0)
+      // The first line is "Sure, here's a thread about..."
+      .slice(1)
 
     return result ?? []
   }
