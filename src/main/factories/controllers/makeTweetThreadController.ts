@@ -3,6 +3,7 @@ import { TweetThreadController } from '@/presentation/controllers/TweetThreadCon
 import { CreateTweetThread } from '@/application/useCases/CreateTweetThread'
 import { TweetThreadRepositorySingleton } from '../repositories/TweetThreadRepositorySingleton'
 import { TweetThreadGeneratorSingleton } from '../gateways/TweetThreadGeneratorSingleton'
+import { GetAllUserTweetThreads } from '@/application/useCases/GetAllUserTweetThreads'
 
 export const makeTweetThreadController = () => {
   const userRepository = UserRepositorySingleton.getInstance()
@@ -10,11 +11,15 @@ export const makeTweetThreadController = () => {
 
   const threadGenerator = TweetThreadGeneratorSingleton.getInstance()
 
-  const signUp = new CreateTweetThread(
+  const createTweetThread = new CreateTweetThread(
     userRepository,
     threadGenerator,
     tweetThreadRepository,
   )
 
-  return new TweetThreadController(signUp)
+  const getAllUserTweetThreads = new GetAllUserTweetThreads(
+    tweetThreadRepository,
+  )
+
+  return new TweetThreadController(createTweetThread, getAllUserTweetThreads)
 }

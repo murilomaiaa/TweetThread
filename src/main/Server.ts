@@ -50,7 +50,11 @@ export class Server {
       makeTweetThreadController()
     this.app.post(
       '/tweet-threads',
-      tweetThreadController.signUp.bind(tweetThreadController),
+      tweetThreadController.create.bind(tweetThreadController),
+    )
+    this.app.get(
+      '/tweet-threads',
+      tweetThreadController.findByOwnerId.bind(tweetThreadController),
     )
   }
 
