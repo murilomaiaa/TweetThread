@@ -7,9 +7,12 @@ import { MongoHelper } from '../MongoHelper'
 import config from '@/main/config'
 import { ObjectId } from 'mongodb'
 import { Id } from '@/domain/entities/valueObjects/Id'
+import { MongodbUserRepository } from './MongodbUserRepository'
+import { makeFakeUser } from '@/domain/entities/__test__/helpers/makeFakeUser'
 
 describe('MongodbTweetThreadRepository', () => {
   let systemUnderTests: MongodbTweetThreadRepository
+  let userRepository: MongodbUserRepository
 
   beforeAll(async () => {
     await MongoHelper.connect(config.mongoUrl ?? '')
@@ -20,6 +23,7 @@ describe('MongodbTweetThreadRepository', () => {
   })
 
   beforeEach(() => {
+    userRepository = new MongodbUserRepository()
     systemUnderTests = new MongodbTweetThreadRepository()
   })
 
@@ -43,5 +47,33 @@ describe('MongodbTweetThreadRepository', () => {
       createdAt: thread.createdAt,
       updatedAt: thread.updatedAt,
     })
+  })
+
+  it('should return correct threads', async () => {
+    const user1 = makeFakeUser()
+    const user2 = makeFakeUser()
+    const [id1, id2] = await Promise.all([
+      userRepository.create(user1),
+      userRepository.create(user2),
+    ])
+    const [t1, t2, t3] = await Promise.all([
+      systemUnderTests.create(
+        makeFakeTweetThread({ ownerId: new Id(id1.generatedId) }),
+      ),
+      systemUnderTests.create(
+        makeFakeTweetThread({ ownerId: new Id(id2.generatedId) }),
+      ),
+      systemUnderTests.create(
+        makeFakeTweetThread({ ownerId: new Id(id2.generatedId) }),
+      ),
+    ])
+
+    const threads1 = await systemUnderTests.findByOwnerId(id1.generatedId)
+    const threads2 = await systemUnderTests.findByOwnerId(id2.generatedId)
+    expect(threads1.length).toBe(1)
+    expect(threads1.map((t) => t.id)).toEqual([t1.generatedId])
+    expect(threads2.length).toBe(2)
+    expect(threads2.map((t) => t.id).includes(t2.generatedId)).toEqual(true)
+    expect(threads2.map((t) => t.id).includes(t3.generatedId)).toEqual(true)
   })
 })

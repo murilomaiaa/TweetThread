@@ -26,6 +26,14 @@ export class MongodbTweetThreadRepository implements TweetThreadRepository {
     )
   }
 
+  async findByOwnerId(ownerId: string): Promise<TweetThread[]> {
+    const ownerIdObject = new ObjectId(ownerId)
+    const tweetThreads = await this.collection
+      .find({ ownerId: ownerIdObject })
+      .toArray()
+    return tweetThreads.map((thread) => this.mapper.toEntity(thread))
+  }
+
   async create(thread: TweetThread): Promise<CreateEntityOutput> {
     const { createdAt, ownerId, transcript, tweets, updatedAt } = thread
     const _id = new ObjectId()
