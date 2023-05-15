@@ -6,6 +6,7 @@ import helmet from 'helmet'
 import { contentType } from './middlewares/contentType'
 import { errorHandler } from './middlewares/errorHandler'
 import { makeAuthController } from './factories/controllers/makeAuthController'
+import { AuthController } from '@/presentation/controllers/AuthController'
 
 export class Server {
   public readonly app: Express
@@ -30,8 +31,9 @@ export class Server {
   }
 
   private setupRoutes() {
-    const authController = makeAuthController()
+    const authController: AuthController = makeAuthController()
     this.app.post('/auth/signup', authController.signUp.bind(authController))
+    this.app.post('/auth/login', authController.login.bind(authController))
   }
 
   async start(port: number) {
