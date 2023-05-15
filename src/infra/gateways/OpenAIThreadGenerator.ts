@@ -1,5 +1,5 @@
 import { ThreadGenerator } from '@/application/gateways/ThreadGenerator'
-import config from '@/shared/config'
+import config from '@/main/config'
 import { Configuration, OpenAIApi } from 'openai'
 
 export class OpenAIThreadGenerator implements ThreadGenerator {

@@ -9,7 +9,7 @@ import { BcryptEncoder } from '@/infra/gateways/BcryptEncoder'
 import { JwtTokenManager } from '@/infra/gateways/JwtTokenManager'
 import { MongodbUserRepository } from '@/infra/mongodb/repositories/MongodbUserRepository'
 import { AuthController } from '@/presentation/controllers/AuthController'
-import config from '@/shared/config'
+import config from './config'
 import { contentType } from './middlewares/contentType'
 import { errorHandler } from './middlewares/errorHandler'
 

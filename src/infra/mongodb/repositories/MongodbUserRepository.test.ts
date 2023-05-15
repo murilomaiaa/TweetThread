@@ -2,7 +2,7 @@ import { makeFakeUser } from '@/domain/entities/__test__/helpers/makeFakeUser'
 import { MongodbUserRepository } from './MongodbUserRepository'
 import { User } from '@/domain/entities/User'
 import { MongoHelper } from '../MongoHelper'
-import config from '@/shared/config'
+import config from '@/main/config'
 
 describe('MongodbUserRepository', () => {
   let systemUnderTests: MongodbUserRepository

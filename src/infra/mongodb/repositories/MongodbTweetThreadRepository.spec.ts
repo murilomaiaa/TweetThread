@@ -4,7 +4,7 @@ import {
   MongodbTweetThreadRepository,
 } from './MongodbTweetThreadRepository'
 import { MongoHelper } from '../MongoHelper'
-import config from '@/shared/config'
+import config from '@/main/config'
 import { ObjectId } from 'mongodb'
 import { Id } from '@/domain/entities/valueObjects/Id'
 

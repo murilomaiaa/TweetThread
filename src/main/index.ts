@@ -1,4 +1,4 @@
-import config from '@/shared/config'
+import config from '@/main/config'
 import { Server } from './Server'
 import { MongoHelper } from '@/infra/mongodb/MongoHelper'
 
