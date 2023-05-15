@@ -9,6 +9,11 @@ type SignUpProps = {
   password: string
 }
 
+type SignUpResult = {
+  accessToken: string
+  generatedId: string
+}
+
 export class SignUp {
   constructor(
     private readonly usersRepository: UserRepository,
@@ -16,7 +21,7 @@ export class SignUp {
     private readonly tokenManager: TokenManager,
   ) {}
 
-  public async handle({ email, password }: SignUpProps) {
+  public async handle({ email, password }: SignUpProps): Promise<SignUpResult> {
     const user = User.create({ email, password })
     const userWithSameEmail = await this.usersRepository.findByEmail(user.email)
 
