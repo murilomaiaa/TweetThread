@@ -7,7 +7,7 @@ export function makeFakeTweetThread(
 ) {
   return TweetThread.create(
     {
-      ownerId: new Id(Date.now().toString()),
+      userId: new Id(Date.now().toString()),
       tweets: 'A list of tweets'.split(' '),
       transcript: 'A random transcript',
       ...props,

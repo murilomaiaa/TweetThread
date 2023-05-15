@@ -18,16 +18,16 @@ export class CreateTweetThread {
   ) {}
 
   async handle({ transcript, userId }: CreateTweetThreadProps) {
-    const owner = await this.usersRepository.findById(userId)
+    const user = await this.usersRepository.findById(userId)
 
-    if (owner === undefined) {
+    if (user === undefined) {
       throw new UserNotFoundError()
     }
 
     const tweets = await this.threadGenerator.generate(transcript)
 
     const tweetThread = TweetThread.create({
-      ownerId: new Id(owner.id),
+      userId: new Id(user.id),
       transcript,
       tweets,
     })

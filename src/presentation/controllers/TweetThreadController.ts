@@ -26,7 +26,7 @@ export class TweetThreadController {
     })
   }
 
-  public async findByOwnerId(request: Request, response: Response) {
+  public async findByUserId(request: Request, response: Response) {
     const { threads } = await this.getAllUserTweetThreads.handle({
       // @ts-ignore
       userId: request.userId,

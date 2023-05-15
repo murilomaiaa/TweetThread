@@ -54,7 +54,7 @@ export class Server {
     )
     this.app.get(
       '/tweet-threads',
-      tweetThreadController.findByOwnerId.bind(tweetThreadController),
+      tweetThreadController.findByUserId.bind(tweetThreadController),
     )
   }
 

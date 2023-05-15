@@ -29,7 +29,7 @@ describe('MongodbTweetThreadRepository', () => {
 
   it('should create a valid thread', async () => {
     const thread = makeFakeTweetThread({
-      ownerId: new Id(new ObjectId().toHexString()),
+      userId: new Id(new ObjectId().toHexString()),
     })
     const { generatedId } = await systemUnderTests.create(thread)
 
@@ -41,7 +41,7 @@ describe('MongodbTweetThreadRepository', () => {
     expect(insertedTweetThread).toBeDefined()
     expect(insertedTweetThread).toEqual<MongodbTweetThread>({
       _id: new ObjectId(generatedId),
-      ownerId: new ObjectId(thread.ownerId.toString()),
+      userId: new ObjectId(thread.userId.toString()),
       transcript: thread.transcript,
       tweets: thread.tweets,
       createdAt: thread.createdAt,
@@ -58,18 +58,18 @@ describe('MongodbTweetThreadRepository', () => {
     ])
     const [t1, t2, t3] = await Promise.all([
       systemUnderTests.create(
-        makeFakeTweetThread({ ownerId: new Id(id1.generatedId) }),
+        makeFakeTweetThread({ userId: new Id(id1.generatedId) }),
       ),
       systemUnderTests.create(
-        makeFakeTweetThread({ ownerId: new Id(id2.generatedId) }),
+        makeFakeTweetThread({ userId: new Id(id2.generatedId) }),
       ),
       systemUnderTests.create(
-        makeFakeTweetThread({ ownerId: new Id(id2.generatedId) }),
+        makeFakeTweetThread({ userId: new Id(id2.generatedId) }),
       ),
     ])
 
-    const threads1 = await systemUnderTests.findByOwnerId(id1.generatedId)
-    const threads2 = await systemUnderTests.findByOwnerId(id2.generatedId)
+    const threads1 = await systemUnderTests.findByUserId(id1.generatedId)
+    const threads2 = await systemUnderTests.findByUserId(id2.generatedId)
     expect(threads1.length).toBe(1)
     expect(threads1.map((t) => t.id)).toEqual([t1.generatedId])
     expect(threads2.length).toBe(2)

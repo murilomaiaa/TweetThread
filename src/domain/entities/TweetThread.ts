@@ -3,7 +3,7 @@ import { Entity } from './Entity'
 import { Optional } from '@/@types/Optional'
 
 type TweetThreadProps = {
-  ownerId: Id
+  userId: Id
   transcript: string
   tweets: string[]
   createdAt: Date
@@ -16,8 +16,8 @@ export type TweetThreadCreateProps = Optional<
 >
 
 export class TweetThread extends Entity<TweetThreadProps> {
-  get ownerId() {
-    return this.props.ownerId
+  get userId() {
+    return this.props.userId
   }
 
   get transcript() {

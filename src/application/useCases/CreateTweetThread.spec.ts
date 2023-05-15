@@ -76,8 +76,8 @@ describe('CreateTweetThread', () => {
   })
 
   it('should call TweetThreadRepository with correct args', async () => {
-    const owner = makeFakeUser()
-    vi.spyOn(userRepository, 'findById').mockResolvedValueOnce(owner)
+    const user = makeFakeUser()
+    vi.spyOn(userRepository, 'findById').mockResolvedValueOnce(user)
     const tweets = ['1/2 generated thread', '2/2 generated thread']
     vi.spyOn(threadGenerator, 'generate').mockResolvedValueOnce(tweets)
     const createSpy = vi.spyOn(tweetThreadRepository, 'create')
@@ -88,7 +88,7 @@ describe('CreateTweetThread', () => {
     })
 
     const tweetThread = TweetThread.create({
-      ownerId: new Id(owner.id),
+      userId: new Id(user.id),
       tweets,
       transcript: 'any very good transcript',
     })

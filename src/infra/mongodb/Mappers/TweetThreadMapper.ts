@@ -7,7 +7,7 @@ export class TweetThreadMapper {
     return TweetThread.create(
       {
         ...thread,
-        ownerId: new Id(thread.ownerId.toHexString()),
+        userId: new Id(thread.userId.toHexString()),
       },
       new Id(thread._id.toHexString()),
     )

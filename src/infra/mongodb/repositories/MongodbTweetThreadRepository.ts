@@ -7,7 +7,7 @@ import { CreateEntityOutput } from '@/application/repositories/types/CreateEntit
 
 export type MongodbTweetThread = {
   _id: ObjectId
-  ownerId: ObjectId
+  userId: ObjectId
   transcript: string
   tweets: string[]
   createdAt: Date
@@ -26,16 +26,16 @@ export class MongodbTweetThreadRepository implements TweetThreadRepository {
     )
   }
 
-  async findByOwnerId(ownerId: string): Promise<TweetThread[]> {
-    const ownerIdObject = new ObjectId(ownerId)
+  async findByUserId(userId: string): Promise<TweetThread[]> {
+    const userIdObject = new ObjectId(userId)
     const tweetThreads = await this.collection
-      .find({ ownerId: ownerIdObject })
+      .find({ userId: userIdObject })
       .toArray()
     return tweetThreads.map((thread) => this.mapper.toEntity(thread))
   }
 
   async create(thread: TweetThread): Promise<CreateEntityOutput> {
-    const { createdAt, ownerId, transcript, tweets, updatedAt } = thread
+    const { createdAt, userId, transcript, tweets, updatedAt } = thread
     const _id = new ObjectId()
     const mongodbTweetThread: MongodbTweetThread = {
       _id,
@@ -43,12 +43,12 @@ export class MongodbTweetThreadRepository implements TweetThreadRepository {
       transcript,
       tweets,
       updatedAt,
-      ownerId: new ObjectId(ownerId.toString()),
+      userId: new ObjectId(userId.toString()),
     }
     await Promise.all([
       await this.collection.insertOne(mongodbTweetThread),
       await MongoHelper.getCollection('users').updateOne(
-        { _id: new ObjectId(ownerId.toString()) },
+        { _id: new ObjectId(userId.toString()) },
         { $push: { savedTweetThreads: new ObjectId(_id) } },
       ),
     ])
