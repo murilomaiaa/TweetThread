@@ -3,12 +3,14 @@ import { MongodbUserRepository } from './MongodbUserRepository'
 import { User } from '@/domain/entities/User'
 import { MongoHelper } from '../MongoHelper'
 import config from '@/main/config'
+import { Id } from '@/domain/entities/valueObjects/Id'
+import { ObjectId } from 'mongodb'
 
 describe('MongodbUserRepository', () => {
   let systemUnderTests: MongodbUserRepository
 
   beforeAll(async () => {
-    await MongoHelper.connect(config.mongoUrl ?? '')
+    await MongoHelper.connect(config.mongoUrl)
   })
 
   afterAll(async () => {
@@ -27,6 +29,14 @@ describe('MongodbUserRepository', () => {
     expect(insertedUser.id).toEqual(generatedId)
     expect(insertedUser.email).toEqual(user.email)
     expect(insertedUser.password).toEqual(user.password)
+  })
+
+  it('should return undefined when user is not found', async () => {
+    const user = makeFakeUser({}, new Id(new ObjectId().toHexString()))
+
+    const findUser = await systemUnderTests.findById(user.id)
+
+    expect(findUser).toBeUndefined()
   })
 
   it('should find a user by email', async () => {

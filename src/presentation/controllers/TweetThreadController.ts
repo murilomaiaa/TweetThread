@@ -37,8 +37,8 @@ export class TweetThreadController {
         id: t.id,
         transcript: t.transcript,
         tweets: t.tweets,
-        createdAt: t.createdAt,
-        updatedAt: t.updatedAt,
+        createdAt: t.createdAt.toISOString(),
+        updatedAt: t.updatedAt.toISOString(),
       })),
     })
   }

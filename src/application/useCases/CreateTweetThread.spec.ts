@@ -26,11 +26,11 @@ describe('CreateTweetThread', () => {
     },
   }
 
-  const tweetThreadRepository: TweetThreadRepository = {
+  const tweetThreadRepository = {
     async create(tweetThread) {
       return { generatedId: new Id().toString() }
     },
-  }
+  } as TweetThreadRepository
 
   beforeEach(() => {
     systemUnderTests = new CreateTweetThread(

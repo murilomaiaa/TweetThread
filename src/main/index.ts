@@ -2,12 +2,10 @@ import config from '@/main/config'
 import { Server } from './Server'
 import { MongoHelper } from '@/infra/mongodb/MongoHelper'
 
-MongoHelper.connect(config.mongoUrl ?? '')
-  .then(() => {
+MongoHelper.connect(config.mongoUrl)
+  .then(async () => {
     const server = new Server()
 
-    server.start(config.port).then(() => {
-      console.log(`App running on port: ${config.port}`)
-    })
+    await server.start(config.port)
   })
   .catch(console.log)

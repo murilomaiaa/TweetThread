@@ -15,7 +15,7 @@ describe('MongodbTweetThreadRepository', () => {
   let userRepository: MongodbUserRepository
 
   beforeAll(async () => {
-    await MongoHelper.connect(config.mongoUrl ?? '')
+    await MongoHelper.connect(config.mongoUrl)
   })
 
   afterAll(async () => {

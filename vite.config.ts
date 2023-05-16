@@ -4,6 +4,9 @@ import tsConfigTest from 'vite-tsconfig-paths'
 export default defineConfig({
   plugins: [tsConfigTest()],
   test: {
-    globals: true
-  }
+    globals: true,
+    coverage: {
+      exclude: ['src/main'],
+    },
+  },
 })

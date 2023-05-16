@@ -14,8 +14,4 @@ export class MongoHelper {
   public static getCollection<T extends Document>(name: string) {
     return this.client.db().collection<T>(name)
   }
-
-  public static async clearCollection(name: string): Promise<void> {
-    await this.client.db().collection(name).deleteMany({})
-  }
 }

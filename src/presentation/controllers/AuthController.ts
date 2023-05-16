@@ -12,7 +12,7 @@ export class AuthController {
   public async signUp(request: Request, response: Response) {
     const signUpSchema = z.object({
       email: z.string().email(),
-      password: z.string().min(6),
+      password: z.string(),
     })
 
     const { email, password } = signUpSchema.parse(request.body)
