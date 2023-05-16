@@ -28,10 +28,6 @@ export class User extends Entity<UserProps> {
     this.props.password = new Password(password)
   }
 
-  get savedTweetThreadsIds() {
-    return this.props.savedTweetThreadsIds
-  }
-
   static create(props: UserCreateProps, id?: Id) {
     return new User(
       {

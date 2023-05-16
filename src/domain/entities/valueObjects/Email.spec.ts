@@ -1,3 +1,4 @@
+import { DomainError } from '../errors/DomainError'
 import { Email } from './Email'
 
 describe('Email', () => {
@@ -10,7 +11,7 @@ describe('Email', () => {
   it('should throw an error for an invalid email address', () => {
     const systemUnderTests = () => new Email('invalid-email')
 
-    expect(systemUnderTests).toThrow('Invalid email address')
+    expect(systemUnderTests).toThrow(new DomainError('Invalid email address'))
   })
 
   it('should return the email address as a string', () => {

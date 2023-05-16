@@ -15,7 +15,7 @@ export class Password {
   }
 
   private validate(password: string): boolean {
-    return password.length > 6
+    return password.length >= 6
   }
 
   public toString(): string {
