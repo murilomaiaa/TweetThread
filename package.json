@@ -6,6 +6,7 @@
   "scripts": {
     "test": "vitest run",
     "test:watch": "vitest",
+    "dev:docker": "./scripts/dev.sh",
     "dev": "ts-node-dev -r tsconfig-paths/register --ignore-watch node_modules src/main/index.ts",
     "lint": "eslint src --ext .ts",
     "lint:fix": "eslint src --ext .ts --fix",

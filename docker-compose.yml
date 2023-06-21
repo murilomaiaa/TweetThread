@@ -13,3 +13,25 @@ services:
       - MONGODB_ROOT_PASSWORD=root
     ports:
       - '27017:27017'
+    networks:
+      - tweet-thread
+
+  tweet-thread:
+    build: .
+    container_name: tweet-thread
+    restart: always
+    tty: true
+    environment:
+     - MONGO_URL=mongodb://mongo:mongo@mongo:27017/tweet-thread
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./src:/home/root/api/src
+    depends_on:
+      - mongo
+    networks:
+      - tweet-thread
+
+networks:
+  tweet-thread:
+    driver: bridge

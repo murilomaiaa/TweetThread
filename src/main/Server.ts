@@ -35,6 +35,9 @@ export class Server {
   }
 
   private setupRoutes() {
+    this.app.get('/health', (request, response) => {
+      return response.json({ status: 'Ok' })
+    })
     const ensureAuthenticatedMiddleware: EnsureAuthenticatedMiddleware =
       makeEnsureAuthenticatedMiddleware()
 
